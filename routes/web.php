@@ -1,12 +1,21 @@
 <?php
 
-use App\Models\Post;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ControllerBiodata;
+use App\Http\Controllers\BiodatasController;
+use App\Http\Controllers\PenggunasController;
 use App\Models\Siswa;
 use App\Models\Biodata;
+use App\Models\Product;
+use App\Models\Wali;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RelasiController;
+use App\Models\Mahasiswa;
+
+Route::resource('post', PostsController::class);
+Route::resource('biodata', BiodatasController::class);
+Route::resource('pengguna', PenggunasController::class);
 
 Route::get('/', function () {
     return view('welcome');
@@ -151,9 +160,9 @@ Route::get('halaman3', function () {
     return view('tampil3', compact('idola'));
 });
 
-Route::get('post', function () {
+// Route::get('post', function () {
 //(menampilkan data tertentu)
-    return $post = Post::where('id','like','%2%')->get();
+    // return $post = Post::where('id','like','%2%')->get();
 
 //(merubah data)
     //$post = Post::find(1);
@@ -176,7 +185,7 @@ Route::get('post', function () {
   //$post-> content = "Menjadi musuh yang baik adalah hal positif";
   //$post-> save();
 //return $post;
-});
+// });
 
 Route::get('siswa', function () {
   // return $siswa = Siswa::all();
@@ -207,9 +216,52 @@ Route::get('siswa', function () {
     //return $biodata2;
 //});
 
-Route::get('post', [PostsController::class,'tampil']);
+//Route::get('post', [PostsController::class,'tampil']);
 Route::get('biodata2', [ControllerBiodata::class,'tampil']);
 
 Auth::routes();
 
 Route::get('/product', [ProductController::class, 'index'])->name('product');
+
+Route::get('product_create', function () {
+    $product          = new Product;
+    $product-> name = "ilham";
+    $product-> description = "baguss";
+    $product-> price = "322300";
+    $product-> stock = "110";
+    $product-> save();
+    return $product;
+});
+
+    Route::get('product_update', function () {
+    $product = Product::find(5);
+    $product->name = "salwa";
+    $product->save();
+    return $product;
+});
+
+    Route::get('product_delete', function () {
+    $product = Product::find(14);
+    $product->delete();
+    return $product;
+});
+    Route::get('product', function () {
+    $product = Product::all();
+   return view('halaman_product', compact('product'));
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/one-to-one', [RelasiController::class, 'oneToOne']);
+
+Route::get('/wali-ke-mahasiswa', function () {
+    $wali = Wali::with('mahasiswa')->first();
+    return "{$wali->nama} adalah wali dari {$wali->mahasiswa->nama}";
+});
+
+Route::get('/one-to-many', [RelasiController::class, 'oneToMany']);
+
+Route::get('/mahasiswa-ke-dosen', function () {
+    $mhs = Mahasiswa::where('nim', '123456')->first();
+    return "{$mhs->nama} dibimbing oleh {$mhs->dosen->nama}";
+});

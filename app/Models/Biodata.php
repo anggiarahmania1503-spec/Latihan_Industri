@@ -10,6 +10,6 @@ class Biodata extends Model
     use HasFactory;
 
     //kolom/field yang boleh diisi
-    protected $fillable = ['id','nama_lengkap','jenis_kelamin','tanggal_lahir','tempat_lahir','agama','alamat','email'];
+    protected $fillable = ['id','nama_lengkap','jenis_kelamin','tanggal_lahir','tempat_lahir','agama','alamat','email','cover'];
     public $timestamp = true;
 }
