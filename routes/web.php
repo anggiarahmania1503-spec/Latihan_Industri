@@ -265,3 +265,7 @@ Route::get('/mahasiswa-ke-dosen', function () {
     $mhs = Mahasiswa::where('nim', '123456')->first();
     return "{$mhs->nama} dibimbing oleh {$mhs->dosen->nama}";
 });
+
+Route::get('/many-to-many', [RelasiController::class, 'manyToMany']);
+
+Route::get('eloquent', [RelasiController::class, 'eloquent']);
