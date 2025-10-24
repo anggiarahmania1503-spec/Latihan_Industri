@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengguna;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\file;
 
-
-class PenggunasController extends Controller
+class KelasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +18,8 @@ class PenggunasController extends Controller
 
     public function index()
     {
-         $pengguna = Pengguna::all();
-         return view('pengguna.index',compact('pengguna'));
+        $kelas = Kelas::all();
+        return view('kelas.index',compact('kelas'));
     }
 
     /**
@@ -28,7 +27,7 @@ class PenggunasController extends Controller
      */
     public function create()
     {
-        return view('pengguna.create');
+        return view('kelas.create');
     }
 
     /**
@@ -38,20 +37,20 @@ class PenggunasController extends Controller
     {
         $request->validate(
         [
-            'nama'  => "required|string|max:225",
+            'nama_kelas'  => "required|string|max:225",
         ],
         [
-            'nama.required'  => "Nama Tidak Boleh Kosong!",
+            'nama_kelas.required'  => "Nama Tidak Boleh Kosong!",
         ]);
 
-        $pengguna   = new Pengguna;
-        $pengguna->nama = $request->nama;
+        $kelas   = new Kelas;
+        $kelas->nama_kelas = $request->nama_kelas;
 
-        $pengguna->save();
+        $kelas->save();
 
         session()->flash('success','Data Berhasil Ditambahkan');
 
-        return redirect()->route('pengguna.index');
+        return redirect()->route('kelas.index');
     }
 
     /**
@@ -59,8 +58,8 @@ class PenggunasController extends Controller
      */
     public function show(string $id)
     {
-         $pengguna = Pengguna::findOrFail($id);
-         return view('pengguna.show',compact('pengguna'));
+        $kelas = Kelas::findOrFail($id);
+         return view('kelas.show',compact('kelas'));
     }
 
     /**
@@ -68,8 +67,8 @@ class PenggunasController extends Controller
      */
     public function edit(string $id)
     {
-         $pengguna = Pengguna::findOrFail($id);
-         return view('pengguna.edit',compact('pengguna'));
+        $kelas = Kelas::findOrFail($id);
+        return view('kelas.edit',compact('kelas'));
     }
 
     /**
@@ -79,20 +78,20 @@ class PenggunasController extends Controller
     {
          $request->validate(
         [
-            'nama'  => "required|string|max:225",
+            'nama_kelas'  => "required|string|max:225",
         ],
         [
-            'nama.required'  => "Nama Tidak Boleh Kosong!",
+            'nama_kelas.required'  => "Nama Tidak Boleh Kosong!",
         ]);
 
-        $pengguna   = Pengguna::findOrFail($id);
-        $pengguna->nama = $request->nama;
+        $kelas   = Kelas::findOrFail($id);
+        $kelas->nama_kelas = $request->nama_kelas;
 
-        $pengguna->save();
+        $kelas->save();
 
         session()->flash('success','Data Berhasil Diubah');
 
-        return redirect()->route('pengguna.index');
+        return redirect()->route('kelas.index');
     }
 
     /**
@@ -100,8 +99,8 @@ class PenggunasController extends Controller
      */
     public function destroy(string $id)
     {
-        $pengguna= Pengguna::findOrFail($id);
-        $pengguna->delete();
-        return redirect()->route('pengguna.index')->with('success','Data Berhasil Dihapus');
+        $kelas= Kelas::findOrFail($id);
+        $kelas->delete();
+        return redirect()->route('kelas.index')->with('success','Data Berhasil Dihapus');
     }
 }
